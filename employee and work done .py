@@ -1,120 +1,201 @@
-# Classifying employes,Keeping track of names and work they have done. 
-Employees = {"Boss": 0 }
-work_todo = {"Manage": "Boss"}
-work_fin = [""]
-check_emp = []
-work=[]
-	# This function is to check if employyes name is already in the dictionary. If it isnt it makes a new key, and adds a value.
-def add_employ():
-	print("Please input the name of an Employee.")
-	new_emp = input(">")
-	for i in Employees:	
-		check_emp = i
-		
-	if new_emp in check_emp :
-		print("This employee is already in the system.")
-	else:
-		employ_num = (input("whats the Employees number. \n >"))
-		Employees[new_emp] = employ_num
-	employees = Employees.items()
-	for existing_emp in employees:
-		print (existing_emp)
-	return
-# This function is to add work to the todo dictinary. and check to see of the work is in there. 
-def add_work():
-	print("Please print what work you want to add to the list. ")
-	work_load= input(">")
-	for cwork in work_todo :
-		work = cwork
-	if work_load in work:
-		print ("This work already has been assigned to someone.")
-		print (work_todo[work])
-	elif work_load != work:
-		print("Work load has been added. \n What employee do you want to do the work?")
-		emp_dowork= input(">")
-		work_todo[work_load] = emp_dowork
-		print(f"Employee {emp_dowork} has been assigned {work_load}.")
-	Work_todo = work_todo.items()
-	for exist_work in Work_todo:
-		exist_work = exist_work
-	return
-	
-#This function is to delete the work from todo so we can switch it over to work done
-def delete_work():
-	listwork = work_todo.items()
-	for existwork in listwork:
-		existwork = existwork
-	print("Please input what work has been completed. Here is a list of current ongoing work.")
-	print(existwork) 
-	workto_del = input ("What task has been done? \n >")
-	if workto_del in work_todo:
-		work_fin.append(workto_del)
-		try:
-			del work_todo [workto_del]
-			print(f"{workto_del} has been deleted.")
-		except keyerror :
-				print ("Workload is not in list.")
-				
-# when typed will give lists of dic and loop.
-	return
-def pwork_done():
-	print("Here is a list of work done ")
-	print(work_fin)
-	return
-def pemployees():
-	print("Here is a list of employyes.")
-	print(Employees)
-	return
-def pwork_todo():
-	print("Here is a list of work to be done")
-	print (work_todo)
-	return
-#function if a letter was pressed pick one of the print options 
-def pick_pfunc():
-	puser_input = input("Please type ' what work is done.' to see work done.\n Type 'Employees' to see a list of Employees\n Type 'work todo' to show What work is left.\n >").lower()
-	if puser_input == "what work is done".lower():
-		pwork_done()
-	elif puser_input == "Employees".lower():
-		pemployees()
-	elif puser_input == "work todo".lower() or "work to do".lower():
-		pwork_todo()
-	return
-# loop function. To loop it all together.
-def loop_all() :
-	loop = True
-	while loop == True:
-		user_inpput = input ("if you would like to add or edit lists for workers and work to do. Please type 'Edit'.\n If you want to just veiw the listing. please type 'View'. \n If you want to exit this application click ' x ' \n >").lower()
-		if user_inpput == "edit".lower():
-			pick_task()
-		elif user_inpput == "view".lower():
-			pick_pfunc()
-		elif user_inpput == "x".lower():
-			loop = False
-			break
-		else:
-			print("Not a valid input.")
-	return
-		
+class EmployeeList(object):
+    def __init__(self):
+        self.employees = []
+        self.work_todo = []
+        self.assigned_task = []
+        self.work_fin = []
+        self.work = self.work_todo + self.assigned_task + self.work_fin
+        self.work_load = 0
+        self.male_employees = []
+        self.female_employees = []
+        self.work_force = 0
+    def __str__(self):
+        while True:
+            print('Select a number')
+            methods = self.employees,self.work_force,self.work_todo,self.assigned_task,self.work_fin,self.work,
+            print("1. Show all employees \n2. Display number of employees.\n3. Show all un assigned work."
+                  "\n5. Show all completed work. \n6. Get a list of all work")
+            choice = int(input('Pick a number ;'))
+            if type(choice) is not int or choice not in range(1,7):
+                print('Invalid Selection')
+                continue
+            pick = methods[choice]
+            return str(pick)
+
+    def add_male_employees(self,emp):
+        self.male_employees.append(emp)
+
+    def add_female_employees(self, emp):
+        self.female_employees.append(emp)
+
+    def add_work(self):
+        work_title = input("Input the work title :")
+        self.work_todo.append(work_title)
+        self.work.append(work_title)
+        self.work_load +=1
+
+    def pwork_done(self):
+        print('Below is a list of all completed work')
+        i = 1
+        for work in self.work_fin:
+            print(f"{i}. {work}")
+            i += 1
+
+    def pemployees(self):
+        print('The following are your staff')
+        for emp in self.employees:
+            idn = emp.id_num
+            print(f"{emp.name} with id number {idn}")
+
+    def p_m_employees(self):
+        print('The following are your male staff')
+        for emp in self.male_employees:
+            idn = emp.id_num
+            empl = emp.name
+            print(f"{empl} with id number {idn}")
+
+    def p_f_employees(self):
+        print('The following are your female staff')
+        for emp in self.employees:
+            idn = emp.id_num
+            print(f"{emp} with id number {idn}")
+
+    def pwork_force(self):
+        print(f"Total number of employees is {self.work_force}")
+
+    def pwork_todo(self):
+        print('Below is a lis of all pending work:')
+        for work in self.work_todo:
+            print(work)
+
+    def finished_work(self):
+        while True:
+            num = 0
+            for work in self.work:
+                num +=1
+                print("%d. %s"%(num,work))
+            choice = int(input("Which of the following task have been completed\nSelect by number :"))
+            pick = num+1
+            if choice  in range(pick):
+                deleted = self.work.pop(pick)
+                self.work_fin.append(deleted)
+                return f"The task'{deleted}' has been completed."
+            else:
+                print("Invalid Selection")
+                return
+
+    def add_employee(self):
+        name = input("Please input the name of this employee :")
+        name = Employee(name)
+        self.employees.append(name)
+        self.work_force +=1
+
+    def pick_pfunc(self):
+        while True:
+            print("Enter a number to perform one of the following task\n1. To get details on employees or add employees.\n"
+                  "2. For work related issues.\n0. To exit")
+            side = int(input('Enter your Choice :'))
+            if side == 1:
+                print("(EMPLOYEES CHAMBER)")
+                while True:
+                    print('Enter a number to perform one of the following task: \n1. Get a list of all employees \n'
+                          '2. Add a new employee.\n3. Show all male employees. \n'
+                          '4. Show all female employees.\n5. Get total number of employees.'
+                          '\n9. To go back to previous selection')
+                    enter = int(input('Enter a number:'))
+                    if enter not in range(1,6) and enter != 9:
+                        print('Invalid input')
+                        continue
+                    elif enter == 9:
+                        break
+
+                    elif enter == 1:
+                        self.pemployees()
+                        continue
+                    elif enter == 2:
+                        self.add_employee()
+                        continue
+                    elif enter == 3:
+                        self.p_m_employees()
+                        continue
+                    elif enter == 4:
+                        self.p_f_employees()
+                        continue
+                    elif enter == 5:
+                        self.pwork_force()
+                        continue
+                    else:
+                        print('Input not recognized')
+                        continue
+
+            elif side == 2:
+                print("(WORK CHAMBER)")
+                while True:
+                    print("Enter a number to perform one of the following task: \n1. Update a work as completed.\n"
+                          "2. Add a new work.\n3. Show all uncompleted work \n9. To go back to previous selection")
+                    enter2 = int(input('Enter a number :'))
+                    if enter2 not in range(1,4) and enter2 != 9:
+                        print("Invalid input\nEnter a valid option(from 1 to 4)")
+                        continue
+                    elif enter2 == 9:
+                        break
+                    elif enter2 == 1:
+                        self.finished_work()
+                        print('Work progress updated')
+                        continue
+                    elif enter2 == 2:
+                        self.add_work()
+                        print("Work added")
+                        continue
+                    elif enter2 == 3:
+                        self.pwork_todo()
+                        continue
+                    else:
+                        print("Invalid input\nEnter a valid option(from 1 to 4)")
+                        continue
+
+            elif side == 0:
+                break
+            else:
+                print("INVALID INPUT, Try again")
+                continue
 
 
 
-# lets user pick tasks to be done.
-def pick_task():
-	print ("Please type 'add employee, if you want to add a new worker. \n Please type 'add work to do' if you want to give work to an employee. \n Please type 'delete work' If you want to delete work.")
-	print_task = input(">").lower()
-	if print_task == "add work to do".lower():
-		add_work()
-	elif print_task == "add employee".lower():
-		add_employ()
-	elif print_task == "delete work".lower():
-		delete_work()
-	else: 
-		print("Input not accepted. Please input the proper terms.")
-	return
 
 
 
 
 
-loop_all()
+EMPL = EmployeeList()
+
+class Employee():
+    def __init__(self, name):
+        self.name = name
+        while True:
+            path = input("What is %s's gender?\n reply M for male and F for female:-" % self.name).lower()
+            if path == 'm' :
+                self.gender = 'Male'
+                self.pronoun = 'his'
+                EmployeeList.add_male_employees(self=EMPL,emp=name)
+                break
+            elif path == 'f':
+                self.gender = 'Female'
+                self.pronoun = 'her'
+                EmployeeList.add_female_employees(self=EMPL,emp=name)
+                break
+            elif self.gender != 'm' and self.gender != 'f':
+                print("Invalid input")
+                continue
+        id_length: int = EMPL.work_force + 1
+        if id_length < 9:
+            self.id_num = "00%d" % id_length
+        elif 9 < id_len < 99:
+            self.id_num = "0%d"% id_length
+        print("%s's ID number is %s"%(self.name,self.id_num))
+        print(f"Would you like to immediately assign a work to {self.name}")
+        choice = input("Enter Yes or No").lower()
+        if choice == 'yes':
+            self.work_todo = input(f"Assign a work to %s :"%self.name)
+
 
