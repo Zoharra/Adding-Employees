@@ -43,28 +43,30 @@ class EmployeeList(object):
 
     def pemployees(self):
         print('The following are your staff')
+        sn = 0
         for emp in self.employees:
-            idn = emp.id_num
-            print(f"{emp.name} with id number {idn}")
+            sn += 1
+            print(f'{sn}. {emp}')
 
     def p_m_employees(self):
         print('The following are your male staff')
+        sn = 0
         for emp in self.male_employees:
-            idn = emp.id_num
-            empl = emp.name
-            print(f"{empl} with id number {idn}")
+            sn += 1
+            print(f'{sn}. {emp}')
 
     def p_f_employees(self):
         print('The following are your female staff')
-        for emp in self.employees:
-            idn = emp.id_num
-            print(f"{emp} with id number {idn}")
+        sn = 0
+        for emp in self.female_employees:
+            sn += 1
+            print(f'{sn}. {emp}')
 
     def pwork_force(self):
         print(f"Total number of employees is {self.work_force}")
 
     def pwork_todo(self):
-        print('Below is a lis of all pending work:')
+        print('Below is a list of all pending work:')
         for work in self.work_todo:
             print(work)
 
@@ -194,8 +196,10 @@ class Employee():
             self.id_num = "0%d"% id_length
         print("%s's ID number is %s"%(self.name,self.id_num))
         print(f"Would you like to immediately assign a work to {self.name}")
-        choice = input("Enter Yes or No").lower()
+        choice = input("Enter Yes or No :").lower()
         if choice == 'yes':
             self.work_todo = input(f"Assign a work to %s :"%self.name)
+    def __str__(self):
+    	return "%s with ID number %s"%(self.name, self.id_num)
 
-
+EMPL.pick_pfunc()
